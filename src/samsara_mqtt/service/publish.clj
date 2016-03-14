@@ -1,6 +1,7 @@
 (ns samsara-mqtt.service.publish
   (:require [samsara-mqtt.domain.publish :refer [bytes->mqtt-publish]]
             [schema.core :as s]
+            [samsara-mqtt.handler :refer [mqtt-handler]]
             [reloaded.repl :refer [system]]))
 
 
@@ -21,16 +22,12 @@
     {:request req :error err}))
 
 
-(defn publish
-  "Handles MQTT Publish. We only handle QOS-0,
-   so there is no response required. Just return nil."
-  [req-bytes]
+(defmethod mqtt-handler :publish [_ req-bytes callback]
   (let [{:keys [request error]} (parse-request req-bytes)]
     (when error
       (throw (ex-info "Invalid publish message received:" error)))
-    
-    ;;Pass the request to the handler fn.
-    ((-> system :mqtt-server :handler-fn) request))
 
+    ;;Pass the request to the handler fn.
+    (callback request))
   ;;Return nil to satisfy the MQTT handler.
   nil)

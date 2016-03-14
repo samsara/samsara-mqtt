@@ -1,4 +1,4 @@
-(defproject samsara-mqtt "1.0-SNAPSHOT"
+(defproject samsara-mqtt "0.1.0"
   :description "MQTT library for Samsara"
   :url "http://samsara-analytics.io/"
 
@@ -18,7 +18,6 @@
                  [com.stuartsierra/component "0.3.0"]
                  [reloaded.repl "0.2.1"]]
 
-  :profiles {:dev {:aot :all
-                   :dependencies [[midje "1.6.3"]
+  :profiles {:dev {:dependencies [[midje "1.6.3"]
                                   [clojurewerkz/machine_head "1.0.0-beta9"]
                                   [clj-mqtt "0.4.1-alpha"]]}})

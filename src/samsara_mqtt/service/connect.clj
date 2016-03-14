@@ -1,6 +1,7 @@
 (ns samsara-mqtt.service.connect
   (:require [samsara-mqtt.domain.connect :refer [bytes->mqtt-connect]]
             [samsara-mqtt.domain.connack :refer [mqtt-connack->bytes]]
+            [samsara-mqtt.handler :refer [mqtt-handler]]
             [schema.core :as s]))
 
 ;;; The Service will take an MQTT message as map
@@ -27,9 +28,8 @@
     {:request req :error err}))
 
 
-(defn connect
-  "Handles MQTT connect."
-  [req-bytes]
+(defmethod mqtt-handler :connect
+  [_ req-bytes _]
   (let [{:keys [request error]} (parse-request req-bytes)]
     (when error
       (throw (ex-info "Invalid message received:" error)))

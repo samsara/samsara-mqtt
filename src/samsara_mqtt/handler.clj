@@ -1,29 +1,11 @@
-(ns samsara-mqtt.handler
-  (:require [samsara-mqtt.service.connect :refer [connect]]
-            [samsara-mqtt.service.publish :refer [publish]]
-            [samsara-mqtt.service.ping    :refer [pingreq]]
-            [samsara-mqtt.domain.util     :refer [get-cp-type get-mqtt-message-type to-byte-array]]))
+(ns samsara-mqtt.handler)
 
 ;;MQTT Message handler.
 ;;The plan is to not support too much of the protocol, so
 ;;I will put in all handling code in one file.
 
-(defmacro defhandlers
-  "Macro to define MQTT handlers by message type.
-   The handler should be a function of arity 1.
-   This macro does not validate the signature of
-   the handler function at the moment."
-  [name doc-string & key-values]
-  (let [handlers (->> key-values (apply hash-map))]
-    `(defn ~name [data#]
-       (let [cp-type#       (-> data# first (get-cp-type))
-             mqtt-msg-type# (get-mqtt-message-type cp-type#)
-             handler#       (mqtt-msg-type# ~handlers)]
-         (handler# data#)))))
+(defmulti mqtt-handler (fn [message-type _ _]
+                         message-type))
 
-
-(defhandlers mqtt-handler
-  "MQTT handlers"
-  :connect  connect
-  :publish  publish
-  :pingreq  pingreq)
+(defmethod mqtt-handler :default [_ _ _]
+  nil)

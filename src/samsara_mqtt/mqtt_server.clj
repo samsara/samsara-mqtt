@@ -2,36 +2,47 @@
   (:require [taoensso.timbre :as log])
   (:require [com.stuartsierra.component :as component]
             [aleph.tcp :as tcp]
-            [samsara-mqtt.tcp :refer [mqtt-handler]]))
+            [samsara-mqtt.tcp :refer [tcp-handler]]))
 
-(defn default-handler
-  "Default request handler. Just prints outs a warning."
+(defn default-callback
+  "Default callback. Just prints outs a warning."
   [request]
   (log/warn "MQTT: No handler fn supplied." request))
 
-(def DEFAULT-CONFIG {:enabled false
-                     :handler-fn default-handler})
 
-(defrecord MqttServer [port enabled backend server]
+(def DEFAULT-CONFIG {:enabled false
+                     :callback default-callback})
+
+
+(defn start
+  "Start the MQTT server"
+  [port callback]
+  (log/info "Samsra MQTT listener started on port:" port)
+  (->> {:port port}
+       (tcp/start-server (tcp-handler callback))))
+
+
+(defn stop
+  "Stop MQTT server"
+  [server]
+  (.close server))
+
+
+(defrecord MqttServer [port enabled backend server callback]
   component/Lifecycle
 
   (start [component]
     (when enabled
-      (log/info "Samsra MQTT listener started on port:" port)
       (if server
         component
-        (->>
-         {:port port}
-         (tcp/start-server mqtt-handler)
+        (->> (start port callback)
          (assoc component :server)))))
 
   (stop [component]
     (if server
-      (->> component :server .close (assoc component :server))
+      (->> component :server stop (assoc component :server))
       component)))
 
 (defn new-mqtt-server
   [config]
   (map->MqttServer (merge DEFAULT-CONFIG config)))
-
-

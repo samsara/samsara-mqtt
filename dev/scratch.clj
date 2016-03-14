@@ -32,6 +32,3 @@
 (generate-string event)
 
 (publish (generate-string event))
-
-
-
