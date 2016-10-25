@@ -26,6 +26,7 @@
       get-mqtt-message-type
       (mqtt-handler data callback)))
 
+
 (defn tcp-handler
   "TCP Handler for MQTT"
   [callback]

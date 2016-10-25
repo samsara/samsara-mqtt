@@ -1,4 +1,4 @@
-(defproject samsara-mqtt "0.1.0"
+(defproject samsara-mqtt "0.2.0-SNAPSHOT"
   :description "MQTT library for Samsara"
   :url "http://samsara-analytics.io/"
 
@@ -12,11 +12,9 @@
                  [cheshire "5.5.0"]
                  [aleph "0.4.0"]
                  [gloss "0.2.5"]
-                 [com.taoensso/timbre "3.4.0"]
+                 [org.clojure/tools.logging "0.3.1"]
                  [prismatic/schema "0.4.0"]
-                 [org.clojure/math.numeric-tower "0.0.4"]
-                 [com.stuartsierra/component "0.3.0"]
-                 [reloaded.repl "0.2.1"]]
+                 [org.clojure/math.numeric-tower "0.0.4"]]
 
   :profiles {:dev {:dependencies [[midje "1.6.3"]
                                   [clojurewerkz/machine_head "1.0.0-beta9"]

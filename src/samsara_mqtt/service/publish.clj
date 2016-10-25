@@ -1,8 +1,7 @@
 (ns samsara-mqtt.service.publish
   (:require [samsara-mqtt.domain.publish :refer [bytes->mqtt-publish]]
             [schema.core :as s]
-            [samsara-mqtt.handler :refer [mqtt-handler]]
-            [reloaded.repl :refer [system]]))
+            [samsara-mqtt.handler :refer [mqtt-handler]]))
 
 
 (def publish-schema
