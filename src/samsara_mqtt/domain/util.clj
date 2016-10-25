@@ -1,14 +1,12 @@
-(ns samsara-mqtt.domain.util
-  (:require [clojure.math.numeric-tower :refer [abs]]))
+(ns samsara-mqtt.domain.util)
 
 ;; Utility methods for domain namespaces
 
 (defn get-cp-type
   "Returns Control Packet Type"
   [byte]
-  (let [b (if (bit-test byte 7) (+ 128 (abs byte)) byte)]
+  (let [b (if (bit-test byte 7) (+ 128 (Math/abs (int byte))) byte)]
     (bit-shift-right b 4)))
-
 
 (defn to-byte-array
   "Converts a sequence a byte-array"

@@ -1,12 +1,12 @@
 (ns scratch
   (:require [cheshire.core :refer :all]
             [samsara-mqtt.mqtt-server :as mqtt]
-            [clojurewerkz.machine-head.client :as mh]))
+            [clojurewerkz.machine-head.client :as mh]
+            [clojure.pprint :refer [pprint]]))
 
 
 (comment
 
-  (require '[clojure.pprint :refer [pprint]])
   (def server (mqtt/start 10010 pprint))
 
   (def event {:sourceId  "5340-dfd0350"

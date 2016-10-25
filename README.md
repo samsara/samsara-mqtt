@@ -5,7 +5,7 @@ A Clojure MQTT broker
 ## Usage
 
 ```
-[samsara/samsara-mqtt "1.0"]
+[samsara/samsara-mqtt "0.1.0"]
 
 (require my.ns
   [samsara-mqtt.mqtt-server :as mqtt]
